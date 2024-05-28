@@ -66,7 +66,7 @@ test_predictions = pd.DataFrame({
 })
 
 # Save predictions to CSV
-test_predictions.to_csv('test_predictions.csv', index=False)
+# test_predictions.to_csv('test_predictions.csv', index=False)
 
 # Output train accuracies
 print(f"Logistic Regression Train Accuracy: {logreg_train_acc}")

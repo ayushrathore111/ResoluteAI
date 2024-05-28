@@ -39,7 +39,7 @@ test_data['cluster'] = kmeans.predict(X_test_scaled)
 
 st.subheader('Dataset with Predicted Clusters')
 st.write(test_data)
-test_data.to_csv('test_with_clusters.csv', index=False)
+# test_data.to_csv('test_with_clusters.csv', index=False)
 
 # Task 2: Train and test classification models
 st.header('Task 2: Train and Test Classification Models')
@@ -106,7 +106,7 @@ model_accuracy=pd.DataFrame({
 })
 
 # Save predictions to CSV
-test_predictions.to_csv('test_predictions.csv', index=False)
+# test_predictions.to_csv('test_predictions.csv', index=False)
 st.subheader('Models Accuracy')
 st.write(model_accuracy)
 st.subheader('Model Predictions')
