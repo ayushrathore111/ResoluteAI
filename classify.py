@@ -9,12 +9,11 @@ from sklearn.metrics import accuracy_score
 train_data = pd.read_excel('train.xlsx')
 test_data = pd.read_excel('test.xlsx')
 
-# Separate features and target
+# Preprocessing
 X_train = train_data.drop('target', axis=1)
 y_train = train_data['target']
+X_test = test_data
 
-
-# Standardize the data
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(test_data)
@@ -31,29 +30,11 @@ rf.fit(X_train_scaled, y_train)
 y_pred_rf = rf.predict(X_test_scaled)
 rf_train_acc = accuracy_score(y_train, rf.predict(X_train_scaled))
 
-# # Train SVM
+# Train SVM
 svm = SVC(random_state=42)
 svm.fit(X_train_scaled, y_train)
 y_pred_svm = svm.predict(X_test_scaled)
 svm_train_acc = accuracy_score(y_train, svm.predict(X_train_scaled))
-
-# # Train Decision Tree
-# dt = DecisionTreeClassifier(random_state=42)
-# dt.fit(X_train_scaled, y_train)
-# y_pred_dt = dt.predict(X_test_scaled)
-# dt_train_acc = accuracy_score(y_train, dt.predict(X_train_scaled))
-
-# # Train Gradient Boosting
-# gb = GradientBoostingClassifier(random_state=42)
-# gb.fit(X_train_scaled, y_train)
-# y_pred_gb = gb.predict(X_test_scaled)
-# gb_train_acc = accuracy_score(y_train, gb.predict(X_train_scaled))
-
-# # Train k-Nearest Neighbors
-# knn = KNeighborsClassifier()
-# knn.fit(X_train_scaled, y_train)
-# y_pred_knn = knn.predict(X_test_scaled)
-# knn_train_acc = accuracy_score(y_train, knn.predict(X_train_scaled))
 
 # Create a DataFrame for test predictions
 test_predictions = pd.DataFrame({
@@ -64,14 +45,11 @@ test_predictions = pd.DataFrame({
     # 'gb_prediction': y_pred_gb,
     # 'knn_prediction': y_pred_knn
 })
+model_accuracy=pd.DataFrame({
+    'Model': ['Logistic', 'RandomForest ','SupportVM'],
+    'Accuracy': [logreg_train_acc, rf_train_acc,svm_train_acc]
+})
 
 # Save predictions to CSV
-# test_predictions.to_csv('test_predictions.csv', index=False)
-
-# Output train accuracies
-print(f"Logistic Regression Train Accuracy: {logreg_train_acc}")
-print(f"Random Forest Train Accuracy: {rf_train_acc}")
-print(f"SVM Train Accuracy: {svm_train_acc}")
-# print(f"Decision Tree Train Accuracy: {dt_train_acc}")
-# print(f"Gradient Boosting Train Accuracy: {gb_train_acc}")
-# print(f"k-Nearest Neighbors Train Accuracy: {knn_train_acc}")
+test_predictions.to_csv('test_predictions.csv', index=False)
+model_accuracy.to_csv('accuracy_models.csv', index=False)
