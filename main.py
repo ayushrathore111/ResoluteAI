@@ -70,12 +70,12 @@ outside_duration = outside_activities.groupby('date').size().reset_index(name='t
 
 duration_summary = pd.merge(inside_duration, outside_duration, on='date', how='outer').fillna(0)
 
-activity_count = raw_data.groupby(['date', 'activity']).size().unstack(fill_value=0)
-activity_count = activity_count.reset_index()
-activity_count.columns = ['date', 'num_picking', 'num_placing']
-
+activity_count = raw_data.pivot_table(
+    index=["date", "activity"], aggfunc="size", fill_value=0
+).reset_index()
 st.subheader('Datewise Total Duration')
 st.write(duration_summary)
 
 st.subheader('Datewise Activity Count')
 st.write(activity_count)
+
